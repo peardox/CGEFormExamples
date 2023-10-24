@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.CastleControl,
-  CastleViewport, CastleUIControls, CastleScene, CastleVectors, CastleTransform
+  CastleViewport, CastleUIControls, CastleScene, CastleVectors, CastleTransform,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls
   ;
 
 type
@@ -35,6 +36,7 @@ type
     function CreateDirectionalLight(LightPos: TVector3): TCastleDirectionalLight;
     function LoadScene(filename: String): TCastleScene;
     procedure LoadViewport;
+    procedure SwitchView3D(const Use3D: Boolean);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -43,7 +45,13 @@ type
   { TForm }
   TForm1 = class(TForm)
     CastleControl1: TCastleControl;
+    Panel1: TPanel;
+    RadioGroup1: TRadioGroup;
+    TrackBar1: TTrackBar;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
+    procedure TrackBar1Change(Sender: TObject);
   private
     { Private declarations }
     CastleApp: TCastleApp;
@@ -105,12 +113,13 @@ procedure TCastleApp.Resize;
 begin
   Viewport.Width := Container.Width;
   Viewport.Height := Container.Height;
-{$ifdef use2dview}
-  if Viewport.Width > Viewport.Height then
-    Camera.Orthographic.Height := 1
-  else
-    Camera.Orthographic.Width := 1;
-{$endif}
+  if Camera.ProjectionType = ptOrthographic then
+    begin
+      if Viewport.Width > Viewport.Height then
+        Camera.Orthographic.Height := 1
+      else
+        Camera.Orthographic.Width := 1;
+    end;
 end;
 
 procedure TCastleApp.Start;
@@ -166,14 +175,7 @@ begin
 
   Camera := TCastleCamera.Create(Viewport);
 
-{$ifdef use2dview}
-  Viewport.Setup2D;
-  Camera.ProjectionType := ptOrthographic;
-  Camera.Orthographic.Width := 1;
-  Camera.Orthographic.Origin := Vector2(0.5, 0.5);
-{$else}
   Camera.ViewFromRadius(2, Vector3(1, 1, 1));
-{$endif}
 
   CameraLight := CreateDirectionalLight(Vector3(0,0,1));
   Camera.Add(CameraLight);
@@ -182,6 +184,23 @@ begin
   Viewport.Camera := Camera;
 
   InsertFront(Viewport);
+end;
+
+procedure TCastleApp.SwitchView3D(const Use3D: Boolean);
+begin
+  if Use3D then
+    begin
+      Camera.ProjectionType := ptPerspective;
+      Camera.ViewFromRadius(2, Vector3(1, 1, 1));
+    end
+  else
+    begin
+      Viewport.Setup2D;
+      Camera.ProjectionType := ptOrthographic;
+      Camera.Orthographic.Width := 1;
+      Camera.Orthographic.Origin := Vector2(0.5, 0.5);
+    end;
+  Resize;
 end;
 
 function TCastleApp.LoadScene(filename: String): TCastleScene;
@@ -216,6 +235,27 @@ begin
   CastleControl1.Parent := Self;
   CastleApp := TCastleApp.Create(CastleControl1);
   CastleControl1.Container.View := CastleApp;
+
+  RadioGroup1.Items.Add('2D');
+  RadioGroup1.Items.Add('3D');
+  RadioGroup1.ItemIndex := 1;
+end;
+
+procedure TForm1.RadioGroup1Click(Sender: TObject);
+begin
+  if RadioGroup1.ItemIndex = 0 then
+    CastleApp.SwitchView3D(False)
+  else
+    CastleApp.SwitchView3D(True);
+end;
+
+procedure TForm1.TrackBar1Change(Sender: TObject);
+begin
+  if Assigned(CastleApp.ActiveScene) then
+    begin
+      Label1.Caption := 'Rotation : ' + IntToStr(Trackbar1.Position);
+      CastleApp.ActiveScene.Rotation := Vector4(0, 1, 0,  Trackbar1.Position * Pi / 180);
+    end;
 end;
 
 end.
