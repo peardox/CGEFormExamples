@@ -60,7 +60,7 @@ object Form1: TForm1
     end
     object TrackBar1: TTrackBar
       CanParentFocus = True
-      Frequency = 45.000000000000000000
+      Frequency = 1.000000000000000000
       Max = 359.000000000000000000
       Orientation = Horizontal
       Position.X = 8.000000000000000000

@@ -236,7 +236,6 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  CastleControl1 := TCastleControl.Create(Self);
   CastleControl1.Align := TAlignLayout.Client;
   CastleControl1.Parent := Self;
   CastleApp := TCastleApp.Create(CastleControl1);
