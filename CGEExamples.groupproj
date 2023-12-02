@@ -9,6 +9,9 @@
         <Projects Include="VCL\VCLExample.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="CPP\cppVCLExample.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="VCLExample:Make">
         <MSBuild Projects="VCL\VCLExample.dproj" Targets="Make"/>
     </Target>
+    <Target Name="cppVCLExample">
+        <MSBuild Projects="CPP\cppVCLExample.cbproj"/>
+    </Target>
+    <Target Name="cppVCLExample:Clean">
+        <MSBuild Projects="CPP\cppVCLExample.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cppVCLExample:Make">
+        <MSBuild Projects="CPP\cppVCLExample.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="FMXExample;VCLExample"/>
+        <CallTarget Targets="FMXExample;VCLExample;cppVCLExample"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FMXExample:Clean;VCLExample:Clean"/>
+        <CallTarget Targets="FMXExample:Clean;VCLExample:Clean;cppVCLExample:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FMXExample:Make;VCLExample:Make"/>
+        <CallTarget Targets="FMXExample:Make;VCLExample:Make;cppVCLExample:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
