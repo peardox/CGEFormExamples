@@ -13,10 +13,43 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
   CastleControl1->Align = alClient;
   CastleControl1->Parent = this;
   CastleApp = new TCastleApp(CastleControl1);
   CastleControl1->Container->View = CastleApp;
+
+  RadioGroup1->Items->Add("2D");
+  RadioGroup1->Items->Add("3D");
+  RadioGroup1->ItemIndex = 1;
+  RadioGroup1->Columns = 2;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::RadioGroup1Click(TObject *Sender)
+{
+  if(RadioGroup1->ItemIndex == 0)
+  {
+	CastleApp->SwitchView3D(False);
+  }
+  else
+  {
+	CastleApp->SwitchView3D(True);
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::TrackBar1Change(TObject *Sender)
+{
+  if(CastleApp->ActiveScene != nullptr)
+  {
+	  Label1->Caption = "Rotation : " + IntToStr(TrackBar1->Position);
+	  CastleApp->ActiveScene->Rotation = Vector4(0, 1, 0,  TrackBar1->Position * M_PI / 180);
+  }
 }
 //---------------------------------------------------------------------------
 

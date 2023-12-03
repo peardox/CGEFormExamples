@@ -33,6 +33,18 @@ __fastcall void TCastleApp::Resize()
 
 	Viewport->Width = Container()->Width();
 	Viewport->Height = Container()->Height();
+
+	if (Camera->ProjectionType == ptOrthographic)
+	{
+		if (Viewport->Width > Viewport->Height)
+		{
+			Camera->Orthographic->Height = 1;
+		}
+		else
+		{
+			Camera->Orthographic->Width = 1;
+		}
+	}
 };
 
 __fastcall void TCastleApp::Update(const float SecondsPassed, bool &HandleInput)
@@ -77,6 +89,19 @@ __fastcall TCastleDirectionalLight* TCastleApp::CreateDirectionalLight(TVector3 
 
 __fastcall void  TCastleApp::SwitchView3D(const bool Use3D)
 {
+  if(Use3D)
+  {
+	  Camera->ProjectionType = ptPerspective;
+	  ViewFromRadius(2, Vector3(1, 1, 1));
+  }
+  else
+  {
+	  Viewport->Setup2D();
+	  Camera->ProjectionType = ptOrthographic;
+	  Camera->Orthographic->Width = 1;
+  //	  Camera->Orthographic->Origin = Vector2(0.5, 0.5);
+  }
+  Resize();
 };
 
 __fastcall TCastleScene* TCastleApp::LoadScene(String filename)
