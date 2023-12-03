@@ -38,11 +38,11 @@ __fastcall void TCastleApp::Resize()
 	{
 		if (Viewport->Width > Viewport->Height)
 		{
-			Camera->Orthographic->Height = 1;
+			Camera->Orthographic->Height = 2;
 		}
 		else
 		{
-			Camera->Orthographic->Width = 1;
+			Camera->Orthographic->Width = 2;
 		}
 	}
 };
@@ -98,8 +98,7 @@ __fastcall void  TCastleApp::SwitchView3D(const bool Use3D)
   {
 	  Viewport->Setup2D();
 	  Camera->ProjectionType = ptOrthographic;
-	  Camera->Orthographic->Width = 1;
-  //	  Camera->Orthographic->Origin = Vector2(0.5, 0.5);
+	  Camera->Orthographic->Origin = Castlevectors::Vector2(0.5, 0.5);
   }
   Resize();
 };
