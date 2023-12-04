@@ -3,7 +3,8 @@ program FMXExample;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  FMXFormUnit in 'FMXFormUnit.pas' {Form1};
+  FMXFormUnit in 'FMXFormUnit.pas' {Form1},
+  CastleAppUnit in '..\Shared\CastleAppUnit.pas';
 
 {$R *.res}
 

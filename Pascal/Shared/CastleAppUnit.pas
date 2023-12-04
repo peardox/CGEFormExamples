@@ -1,15 +1,8 @@
-unit Unit1;
+unit CastleAppUnit;
 
 interface
 
-// {$define use2dview}
-
-uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, Fmx.CastleControl,
-  CastleViewport, CastleUIControls, CastleScene, CastleVectors, CastleTransform
-  ;
+uses  System.SysUtils, System.Classes, System.Types, CastleViewport, CastleUIControls, CastleScene, CastleVectors, CastleTransform;
 
 type
   { TCastleSceneHelper }
@@ -31,7 +24,6 @@ type
     procedure Stop; override; // TCastleView
     procedure Resize; override; // TCastleUserInterface
   private
-    ActiveScene: TCastleScene;
     Camera: TCastleCamera;
     CameraLight: TCastleDirectionalLight;
     Viewport: TCastleViewport;
@@ -39,27 +31,15 @@ type
     function LoadScene(filename: String): TCastleScene;
     procedure LoadViewport;
   public
+    ActiveScene: TCastleScene;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure SwitchView3D(const Use3D: Boolean);
+    procedure SetRotation(const ARotDeg: Single);
   end;
 
-  { TForm }
-  TForm1 = class(TForm)
-    CastleControl1: TCastleControl;
-    procedure FormCreate(Sender: TObject);
-  private
-    { Private declarations }
-    CastleApp: TCastleApp;
-  public
-    { Public declarations }
-  end;
-
-var
-  Form1: TForm1;
 
 implementation
-
-{$R *.fmx}
 
 uses Math, CastleProjection, CastleFilesUtils;
 
@@ -108,12 +88,18 @@ procedure TCastleApp.Resize;
 begin
   Viewport.Width := Container.Width;
   Viewport.Height := Container.Height;
-{$ifdef use2dview}
-  if Viewport.Width > Viewport.Height then
-    Camera.Orthographic.Height := 1
-  else
-    Camera.Orthographic.Width := 1;
-{$endif}
+  if Camera.ProjectionType = ptOrthographic then
+    begin
+      if Viewport.Width > Viewport.Height then
+        Camera.Orthographic.Height := 1
+      else
+        Camera.Orthographic.Width := 1;
+    end;
+end;
+
+procedure TCastleApp.SetRotation(const ARotDeg: Single);
+begin
+   ActiveScene.Rotation := Vector4(0, 1, 0,  ARotDeg * Pi / 180);
 end;
 
 procedure TCastleApp.Start;
@@ -121,17 +107,6 @@ var
  datadir: String;
 begin
   inherited;
-  // Kludgy castle-data finder
-  if DirectoryExists('../../../data/') then
-    datadir := '../../../data/'
-  else if DirectoryExists('../../data/') then
-    datadir := '../../data/'
-  else if DirectoryExists('data/') then
-    datadir := 'data/'
-  else
-    datadir := '';
-  ApplicationDataOverride := datadir;
-
   LoadViewport;
   ActiveScene := LoadScene('castle-data:/knight.gltf');
   if Assigned(ActiveScene) then
@@ -169,14 +144,7 @@ begin
 
   Camera := TCastleCamera.Create(Viewport);
 
-{$ifdef use2dview}
-  Viewport.Setup2D;
-  Camera.ProjectionType := ptOrthographic;
-  Camera.Orthographic.Width := 1;
-  Camera.Orthographic.Origin := Vector2(0.5, 0.5);
-{$else}
   Camera.ViewFromRadius(2, Vector3(1, 1, 1));
-{$endif}
 
   CameraLight := CreateDirectionalLight(Vector3(0,0,1));
   Camera.Add(CameraLight);
@@ -185,6 +153,23 @@ begin
   Viewport.Camera := Camera;
 
   InsertFront(Viewport);
+end;
+
+procedure TCastleApp.SwitchView3D(const Use3D: Boolean);
+begin
+  if Use3D then
+    begin
+      Camera.ProjectionType := ptPerspective;
+      Camera.ViewFromRadius(2, Vector3(1, 1, 1));
+    end
+  else
+    begin
+      Viewport.Setup2D;
+      Camera.ProjectionType := ptOrthographic;
+      Camera.Orthographic.Width := 1;
+      Camera.Orthographic.Origin := Vector2(0.5, 0.5);
+    end;
+  Resize;
 end;
 
 function TCastleApp.LoadScene(filename: String): TCastleScene;
@@ -196,7 +181,7 @@ begin
   except
     on E : Exception do
       begin
-        ShowMessage('Error in LoadScene : ' + E.ClassName + ' - ' + E.Message);
+        Raise Exception.Create('Error in LoadScene : ' + E.ClassName + ' - ' + E.Message);
        end;
   end;
 end;
@@ -212,13 +197,5 @@ begin
   Translation  := Spherical;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  CastleControl1 := TCastleControl.Create(Self);
-  CastleControl1.Align := TAlignLayout.Client;
-  CastleControl1.Parent := Self;
-  CastleApp := TCastleApp.Create(CastleControl1);
-  CastleControl1.Container.View := CastleApp;
-end;
 
 end.

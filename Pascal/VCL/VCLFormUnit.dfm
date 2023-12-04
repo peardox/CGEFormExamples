@@ -25,8 +25,6 @@ object Form1: TForm1
     Height = 49
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 391
-    ExplicitWidth = 620
     DesignSize = (
       624
       49)
@@ -47,7 +45,6 @@ object Form1: TForm1
       Columns = 2
       TabOrder = 0
       OnClick = RadioGroup1Click
-      ExplicitLeft = 516
     end
     object TrackBar1: TTrackBar
       Left = 16

@@ -1,0 +1,10 @@
+# Delphi crap
+backup/
+*.bak
+__history/
+__recovery/
+Win32/
+Win64/
+*.local
+*.identcache
+*.res

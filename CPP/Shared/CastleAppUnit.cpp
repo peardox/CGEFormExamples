@@ -146,3 +146,11 @@ __fastcall void TCastleApp::NormalizeScene(TCastleScene *Scene)
   }
 }
 
+__fastcall void TCastleApp::SetRotation(const float ARotDeg)
+{
+  if(ActiveScene != nullptr)
+  {
+	  ActiveScene->Rotation = Vector4(0, 1, 0,  ARotDeg * M_PI / 180);
+  }
+};
+

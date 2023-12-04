@@ -3,13 +3,16 @@
         <ProjectGuid>{E811B958-C7E1-435B-82D9-E6820816235F}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="FMX\FMXExample.dproj">
+        <Projects Include="Pascal\FMX\FMXExample.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="VCL\VCLExample.dproj">
+        <Projects Include="Pascal\VCL\VCLExample.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="CPP\cppVCLExample.cbproj">
+        <Projects Include="CPP\VCL\cppVCLExample.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CPP\FMX\cppFMXExample.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -21,40 +24,49 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="FMXExample">
-        <MSBuild Projects="FMX\FMXExample.dproj"/>
+        <MSBuild Projects="Pascal\FMX\FMXExample.dproj"/>
     </Target>
     <Target Name="FMXExample:Clean">
-        <MSBuild Projects="FMX\FMXExample.dproj" Targets="Clean"/>
+        <MSBuild Projects="Pascal\FMX\FMXExample.dproj" Targets="Clean"/>
     </Target>
     <Target Name="FMXExample:Make">
-        <MSBuild Projects="FMX\FMXExample.dproj" Targets="Make"/>
+        <MSBuild Projects="Pascal\FMX\FMXExample.dproj" Targets="Make"/>
     </Target>
     <Target Name="VCLExample">
-        <MSBuild Projects="VCL\VCLExample.dproj"/>
+        <MSBuild Projects="Pascal\VCL\VCLExample.dproj"/>
     </Target>
     <Target Name="VCLExample:Clean">
-        <MSBuild Projects="VCL\VCLExample.dproj" Targets="Clean"/>
+        <MSBuild Projects="Pascal\VCL\VCLExample.dproj" Targets="Clean"/>
     </Target>
     <Target Name="VCLExample:Make">
-        <MSBuild Projects="VCL\VCLExample.dproj" Targets="Make"/>
+        <MSBuild Projects="Pascal\VCL\VCLExample.dproj" Targets="Make"/>
     </Target>
     <Target Name="cppVCLExample">
-        <MSBuild Projects="CPP\cppVCLExample.cbproj"/>
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj"/>
     </Target>
     <Target Name="cppVCLExample:Clean">
-        <MSBuild Projects="CPP\cppVCLExample.cbproj" Targets="Clean"/>
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="cppVCLExample:Make">
-        <MSBuild Projects="CPP\cppVCLExample.cbproj" Targets="Make"/>
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="cppFMXExample">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj"/>
+    </Target>
+    <Target Name="cppFMXExample:Clean">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cppFMXExample:Make">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="FMXExample;VCLExample;cppVCLExample"/>
+        <CallTarget Targets="FMXExample;VCLExample;cppVCLExample;cppFMXExample"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FMXExample:Clean;VCLExample:Clean;cppVCLExample:Clean"/>
+        <CallTarget Targets="FMXExample:Clean;VCLExample:Clean;cppVCLExample:Clean;cppFMXExample:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FMXExample:Make;VCLExample:Make;cppVCLExample:Make"/>
+        <CallTarget Targets="FMXExample:Make;VCLExample:Make;cppVCLExample:Make;cppFMXExample:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

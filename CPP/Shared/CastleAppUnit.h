@@ -3,7 +3,6 @@
 #ifndef CastleAppUnitH
 #define CastleAppUnitH
 //---------------------------------------------------------------------------
-#include "Vcl.CastleControl.hpp"
 #include "CastleUIControls.hpp"
 #include "CastleScene.hpp"
 #include "CastleViewport.hpp"
@@ -28,6 +27,7 @@ public:		// User declarations
 	__fastcall TCastleApp(TComponent* Owner);
 	__fastcall virtual ~TCastleApp();
 	__fastcall void SwitchView3D(const bool Use3D);
+	__fastcall void SetRotation(const float ARotDeg);
 	virtual __fastcall void Start();
 	virtual __fastcall void Stop();
 	virtual __fastcall void Resize();

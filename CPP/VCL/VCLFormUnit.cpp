@@ -45,11 +45,8 @@ void __fastcall TForm1::RadioGroup1Click(TObject *Sender)
 
 void __fastcall TForm1::TrackBar1Change(TObject *Sender)
 {
-  if(CastleApp->ActiveScene != nullptr)
-  {
-	  Label1->Caption = "Rotation : " + IntToStr(TrackBar1->Position);
-	  CastleApp->ActiveScene->Rotation = Vector4(0, 1, 0,  TrackBar1->Position * M_PI / 180);
-  }
+  Label1->Caption = "Rotation : " + IntToStr(TrackBar1->Position);
+  CastleApp->SetRotation(TrackBar1->Position);
 }
 //---------------------------------------------------------------------------
 
