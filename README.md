@@ -6,11 +6,11 @@ VCL/FMX are used here as holding elements for a TCastleWindow and as inputs to t
 
 It should be noted that when compiling you will see a pop-up warning you may not have encountered before that looks like this...
 
-![Untitled](git-img\Warning.png)
+![Untitled](git-img/Warning.png)
 
 This warning is due to a build event that copies the data directory to the relevant output folder. All it's doing is issuing a command like "xcopy data Pascal\FMX\Win64\Debug" to ensure that when run the application has the data files it expects where they're supposed to be.
 
 Compilation of this example will result in a window like this (no matter what language or framework is used to compile it)
 
-![](git-img\App.png)
+![](git-img/App.png)
 
