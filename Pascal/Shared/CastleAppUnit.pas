@@ -103,8 +103,6 @@ begin
 end;
 
 procedure TCastleApp.Start;
-var
- datadir: String;
 begin
   inherited;
   LoadViewport;
@@ -175,7 +173,6 @@ end;
 
 function TCastleApp.LoadScene(filename: String): TCastleScene;
 begin
-  Result := Nil;
   try
     Result := TCastleScene.Create(Self);
     Result.Load(filename);
