@@ -31,8 +31,8 @@ __fastcall void TCastleApp::Resize()
 {
 	TCastleUserInterface::Resize();
 
-	Viewport->Width = Container()->Width();
-	Viewport->Height = Container()->Height();
+	Viewport->Width = Container()->UnscaledWidth();
+	Viewport->Height = Container()->UnscaledHeight();
 
 	if (Camera->ProjectionType == ptOrthographic)
 	{
@@ -58,8 +58,8 @@ __fastcall void TCastleApp::LoadViewport()
 	ALightPos = Vector3(0,0,1);
 	Viewport = new TCastleViewport(this);
 	Viewport->FullSize = False;
-	Viewport->Width = Container()->Width();
-	Viewport->Height = Container()->Height();
+	Viewport->Width = Container()->UnscaledWidth();
+	Viewport->Height = Container()->UnscaledHeight();
 	Viewport->Transparent = True;
 
 	Camera = new TCastleCamera(Viewport);
