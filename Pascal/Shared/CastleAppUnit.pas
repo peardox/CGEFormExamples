@@ -86,8 +86,8 @@ end;
 
 procedure TCastleApp.Resize;
 begin
-  Viewport.Width := Container.Width;
-  Viewport.Height := Container.Height;
+  Viewport.Width := Container.UnscaledWidth;
+  Viewport.Height := Container.UnscaledHeight;
   if Camera.ProjectionType = ptOrthographic then
     begin
       if Viewport.Width > Viewport.Height then
@@ -108,7 +108,8 @@ var
 begin
   inherited;
   LoadViewport;
-  ActiveScene := LoadScene('castle-data:/knight.gltf');
+  ActiveScene := LoadScene('castle-data:/KayKit/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.glb');
+
   if Assigned(ActiveScene) then
     begin
       ActiveScene.Normalize;
@@ -138,8 +139,8 @@ procedure TCastleApp.LoadViewport;
 begin
   Viewport := TCastleViewport.Create(Self);
   Viewport.FullSize := False;
-  Viewport.Width := Container.Width;
-  Viewport.Height := Container.Height;
+  Viewport.Width := Container.UnscaledWidth;
+  Viewport.Height := Container.UnscaledHeight;
   Viewport.Transparent := True;
 
   Camera := TCastleCamera.Create(Viewport);

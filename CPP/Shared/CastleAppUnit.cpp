@@ -18,7 +18,7 @@ __fastcall void TCastleApp::Start()
 {
 	TCastleView::Start();
 	LoadViewport();
-	ActiveScene = LoadScene("castle-data:/knight.gltf");
+	ActiveScene = LoadScene("castle-data:/KayKit/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.glb");
 	Viewport->Items->Add(ActiveScene);
 }
 
