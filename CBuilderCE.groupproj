@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E811B958-C7E1-435B-82D9-E6820816235F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CPP\VCL\cppVCLExample.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CPP\FMX\cppFMXExample.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="cppVCLExample">
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj"/>
+    </Target>
+    <Target Name="cppVCLExample:Clean">
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cppVCLExample:Make">
+        <MSBuild Projects="CPP\VCL\cppVCLExample.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="cppFMXExample">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj"/>
+    </Target>
+    <Target Name="cppFMXExample:Clean">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cppFMXExample:Make">
+        <MSBuild Projects="CPP\FMX\cppFMXExample.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="cppVCLExample;cppFMXExample"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="cppVCLExample:Clean;cppFMXExample:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="cppVCLExample:Make;cppFMXExample:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

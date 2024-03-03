@@ -2,6 +2,12 @@ CGE Form Examples
 
 This repo illustrates using Castle Game Engine both using Pascal and C++(Builder) using both FMX and VCL frameworks sharing the CGE code
 
+If you are using Delphi Community Edition please start with DelphiCE.groupproj
+
+If you are using C++Builder Community Edition please start with CBuilderCE.groupproj
+
+If you are using Rad Studio (i.e. paid Delphi) please start with RadStudio.groupproj
+
 VCL/FMX are used here as holding elements for a TCastleWindow and as inputs to the CGE part of the application. The separate CastleAppUnit.(pas/cpp) is shared between the relevant parent frameworks.
 
 It should be noted that when compiling you will see a pop-up warning you may not have encountered before that looks like this...
